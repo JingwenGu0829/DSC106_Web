@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-labelledby="title desc">
+  <title id="title">Decorative gadget illustration</title>
+  <desc id="desc">A playful futuristic gadget card with stars, a pocket, and a doorway shape.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#e2f7ff"/>
+      <stop offset="100%" stop-color="#fff7d1"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" rx="28" fill="url(#sky)"/>
+  <circle cx="84" cy="78" r="10" fill="#ff465d"/>
+  <circle cx="318" cy="62" r="8" fill="#ffd447"/>
+  <circle cx="340" cy="104" r="6" fill="#1aa8ff"/>
+  <path d="M140 78h120v162H140z" fill="#2f9cff" opacity=".16"/>
+  <path d="M152 90h96v138h-96z" fill="#fff" stroke="#2f9cff" stroke-width="10"/>
+  <path d="M110 206c0-40 40-70 90-70s90 30 90 70" fill="none" stroke="#2f9cff" stroke-width="14" stroke-linecap="round"/>
+  <path d="M152 208h96" fill="none" stroke="#ff465d" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="200" cy="210" r="20" fill="#ffd447" stroke="#6a5600" stroke-width="5"/>
+  <path d="M200 230v18" fill="none" stroke="#6a5600" stroke-width="5" stroke-linecap="round"/>
+</svg>

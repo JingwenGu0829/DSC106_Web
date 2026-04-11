@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Doraemon</title>
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="../">Home</a></li>
+        <li><a href="../projects/">Projects</a></li>
+        <li><a class="current" href="./">Contact</a></li>
+        <li><a href="../cv/">CV</a></li>
+        <li><a href="https://github.com/JingwenGu0829" target="_blank" rel="noreferrer">GitHub</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <header class="page-header">
+        <p class="eyebrow">Need Help From The Future?</p>
+        <h1>Contact Doraemon</h1>
+        <p class="lead">
+          This form opens a mail draft with your preferred email app, which matches
+          the contact-form workflow introduced in DSC 106 Lab 1.
+        </p>
+      </header>
+
+      <section class="contact-layout">
+        <div class="panel">
+          <h2>Before you write</h2>
+          <p>
+            Doraemon is especially responsive to requests about homework stress,
+            travel shortcuts, unexpected timelines, and dorayaki recommendations.
+          </p>
+          <p>
+            For best results, describe your problem clearly and mention whether you
+            need a gadget, a pep talk, or both.
+          </p>
+        </div>
+
+        <div class="panel">
+          <form action="mailto:doraemon@future-pocket.jp" method="POST" enctype="text/plain">
+            <label>
+              <span>Your email</span>
+              <input name="email" type="email" value="nobita@example.com" required>
+            </label>
+
+            <label>
+              <span>Subject</span>
+              <input name="subject" value="Need a gadget for tomorrow's quiz" required>
+            </label>
+
+            <label>
+              <span>Message</span>
+              <textarea name="body" rows="6">Hello Doraemon,
+
+I could really use some help preparing for class tomorrow. If you have a gadget that makes studying easier, please let me know.
+
+Thanks,
+Nobita</textarea>
+            </label>
+
+            <button>Launch mail draft</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>The form uses labels, semantic inputs, and CSS grid styling from the lab sequence.</p>
+    </footer>
+  </body>
+</html>
