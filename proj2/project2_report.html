@@ -50,31 +50,40 @@
           <h3>Design Decisions and Rationale</h3>
           <ul class="report-notes">
             <li>
-              <span class="score">Score: -1.0</span> I aggregated countries into
+              <span class="score">Score: -1.0</span> We aggregated countries into
               four income groups instead of showing country-level data. That smoothing
               hides within-group variation and makes the gap between rich and poor
               countries look cleaner and more stable than the underlying country
               distribution really is.
             </li>
             <li>
-              <span class="score">Score: -0.5</span> I framed the chart as a long-run
+              <span class="score">Score: -0.5</span> We framed the chart as a long-run
               trend from 2000 to 2019. This encourages viewers to read the separation
               between income groups as persistent evidence that connectivity and
               prosperity naturally go together, even though the chart does not prove
               that one caused the other.
             </li>
             <li>
-              <span class="score">Score: +1.5</span> I used direct labels on the
+              <span class="score">Score: +2.0</span> We used direct labels on the
               lines and added the x-axis label Year with whole-number ticks. Those
               choices make the chart easier to read without forcing the viewer to
               match colors back to a separate legend or decode awkward decimal
               formatting.
             </li>
             <li>
-              <span class="score">Score: +1.0</span> I kept the y-axis starting near
+              <span class="score">Score: +1.5</span> We kept the y-axis starting near
               zero and used a simple percentage scale for internet use. That is a
               relatively earnest choice because it preserves the magnitude of the
               differences instead of exaggerating them with a truncated axis.
+            </li>
+            <li>
+              <span class="score">Score: -1.0</span> We titled the chart "The most
+              prosperous countries have also remained the most connected," which
+              nudges the viewer toward reading the pattern as confirmation that wealth
+              and connectivity naturally reinforce one another. The title is not
+              factually false, but it makes a correlational pattern sound more
+              conclusive and aligned with the proposition than a more neutral title
+              would.
             </li>
           </ul>
         </article>
@@ -97,32 +106,40 @@
           <h3>Design Decisions and Rationale</h3>
           <ul class="report-notes">
             <li>
-              <span class="score">Score: -0.5</span> I reframed the proposition around
+              <span class="score">Score: -1.0</span> We reframed the proposition around
               change from 2009 to 2019 instead of country levels. This is persuasive
               because it asks whether internet expansion actually paid off economically
               in a specific decade, which is a much tougher test than a cross-sectional
               snapshot.
             </li>
             <li>
-              <span class="score">Score: +1.0</span> I kept both axes in familiar
+              <span class="score">Score: +1.0</span> We kept both axes in familiar
               percentage units and added zero reference lines. That makes it easy to
               see that many countries expanded access while posting weak or even
               negative GDP growth, without requiring viewers to decode transformed
               scales.
             </li>
             <li>
-              <span class="score">Score: -1.0</span> I labeled a small set of
+              <span class="score">Score: -1.0</span> We labeled a small set of
               counterexamples such as Oman, Kuwait, Iran, and Brunei Darussalam.
-              These annotations make the negative cases more memorable, while I leave
+              These annotations make the negative cases more memorable, while we leave
               unlabeled many countries where internet access and GDP moved upward
               together.
             </li>
             <li>
-              <span class="score">Score: +0.5</span> I used region color to show that
+              <span class="score">Score: 0.0</span> We used region color to show that
               the weak change relationship is not confined to one place. This keeps
               the visualization from feeling like it relies on a single outlier, even
               though the highlighted examples still guide the reader toward the
               anti-proposition interpretation.
+            </li>
+            <li>
+              <span class="score">Score: -1.5</span> We used the title "From 2009 to
+              2019, internet expansion did not reliably produce economic growth,"
+              which frames the chart in near-causal language even though the plot only
+              shows an inconsistent association between changes in two variables. That
+              wording is persuasive because it sounds decisive, but it overstates what
+              the evidence alone can establish.
             </li>
           </ul>
         </article>
@@ -134,12 +151,13 @@
         <p>
           Designing both sides around the same dataset made it clear that persuasion
           often comes less from fabrication and more from framing. The strongest
-          contrast in this project came from switching between a latest-country
-          cross-section and a change-over-time view. In the first visualization,
-          internet access and prosperity look tightly linked, especially once the GDP
-          axis is log-scaled and the broad global pattern is emphasized. In the
-          second visualization, that same story weakens dramatically once the question
-          becomes whether internet expansion reliably translated into GDP growth from
+          contrast in this project came from switching between income-group averages
+          over time and country-level change over a single decade. In the first
+          visualization, internet access and prosperity look tightly linked because
+          the grouped lines show a clean, persistent separation between richer and
+          poorer countries. In the second visualization, that same story weakens
+          dramatically once the question becomes whether countries that expanded
+          internet access the most also saw the strongest GDP per capita growth from
           2009 to 2019.
         </p>
 
@@ -156,13 +174,6 @@
         </p>
       </section>
     </main>
-
-    <footer>
-      <p>
-        Project 2 is now part of the same Doraemon course site with shared navigation
-        and styling.
-      </p>
-    </footer>
 
     <script src="../global.js" type="module"></script>
   </body>
