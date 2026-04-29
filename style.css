@@ -335,6 +335,107 @@ button {
   margin: 0;
 }
 
+.report-page {
+  max-width: 115ch;
+}
+
+.report-hero {
+  text-align: center;
+  padding-block: 1rem;
+}
+
+.report-hero h1 {
+  margin-bottom: 0.5rem;
+}
+
+.report-authors {
+  margin-bottom: 0.35rem;
+  font-size: 1rem;
+}
+
+.score {
+  font-weight: 700;
+  color: color-mix(in oklch, var(--color-accent), canvastext 30%);
+}
+
+.source-note {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.report-section {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.report-section > :last-child {
+  margin-bottom: 0;
+}
+
+.report-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.report-tag.support {
+  color: oklch(38% 0.1 239);
+  background: color-mix(in oklch, var(--color-accent), white 76%);
+}
+
+.report-tag.challenge {
+  color: oklch(33% 0.08 245);
+  background: color-mix(in oklch, oklch(58% 0.12 245), white 80%);
+}
+
+.report-figure {
+  margin: 0;
+  padding: 1rem;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklch, canvas 97%, white 3%),
+      color-mix(in oklch, canvas 91%, oklch(92% 0.03 235) 9%)
+    );
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  box-shadow: 0 0.65rem 1.5rem color-mix(in srgb, var(--color-accent), transparent 90%);
+}
+
+.report-figure img {
+  width: 100%;
+  border-radius: 0.8rem;
+  border: 1px solid color-mix(in oklch, var(--color-border), white 20%);
+}
+
+.report-figure figcaption {
+  margin-top: 0.85rem;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.report-notes {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.report-notes li + li {
+  margin-top: 0.85rem;
+}
+
 .color-scheme {
   position: absolute;
   top: 1rem;
@@ -392,7 +493,8 @@ footer {
   .resume-header,
   .info-grid,
   .resume-columns,
-  .contact-layout {
+  .contact-layout,
+  .report-grid {
     grid-template-columns: 1fr;
     flex-direction: column;
   }
