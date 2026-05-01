@@ -1,0 +1,74 @@
+[
+  {
+    "title": "Anywhere Door Trip Planner",
+    "year": "2026",
+    "image": "images/gadget-card.svg",
+    "description": "A cheerful routing tool for surprise visits, class field trips, and last-minute dorayaki runs across town."
+  },
+  {
+    "title": "Take-copter Flight School",
+    "year": "2024",
+    "image": "images/gadget-card.svg",
+    "description": "A beginner-friendly aerial training program with soft landing drills, breeze checks, and tiny pilot badges."
+  },
+  {
+    "title": "Time Machine Debugger",
+    "year": "2025",
+    "image": "images/gadget-card.svg",
+    "description": "A timeline troubleshooting dashboard for spotting cause-and-effect tangles before they turn into future homework disasters."
+  },
+  {
+    "title": "Memory Bread Study Cafe",
+    "year": "2024",
+    "image": "images/gadget-card.svg",
+    "description": "A cozy exam-prep concept that pairs textbook toast with study timers, snack breaks, and slightly nervous confidence."
+  },
+  {
+    "title": "Small Light Tiny Museum",
+    "year": "2024",
+    "image": "images/gadget-card.svg",
+    "description": "A miniature exhibition kit for shrinking big ideas into pocket-sized displays that fit on Nobita's desk."
+  },
+  {
+    "title": "Big Light Parade Kit",
+    "year": "2024",
+    "image": "images/gadget-card.svg",
+    "description": "A playful scaling system for making tiny decorations, toy floats, and shy ideas big enough for a neighborhood parade."
+  },
+  {
+    "title": "Translation Jelly Picnic",
+    "year": "2026",
+    "image": "images/gadget-card.svg",
+    "description": "A language-sharing picnic setup where everyone can swap stories, recipes, and jokes without getting stuck on vocabulary."
+  },
+  {
+    "title": "Pocket Inventory Sorter",
+    "year": "2024",
+    "image": "images/gadget-card.svg",
+    "description": "A tidy catalog for Doraemon's four-dimensional pocket, designed to find the right gadget before the panic music starts."
+  },
+  {
+    "title": "Dorayaki Snack Forecast",
+    "year": "2022",
+    "image": "images/gadget-card.svg",
+    "description": "A sweet little tracker that predicts snack shortages, favorite fillings, and the best time to restock the pantry."
+  },
+  {
+    "title": "Homework Courage Console",
+    "year": "2023",
+    "image": "images/gadget-card.svg",
+    "description": "A supportive dashboard that breaks scary assignments into tiny quests with encouragement between each checkpoint."
+  },
+  {
+    "title": "Lost Button Finder",
+    "year": "2026",
+    "image": "images/gadget-card.svg",
+    "description": "A small domestic search system for runaway buttons, missing pencils, and other objects hiding under impossible furniture."
+  },
+  {
+    "title": "Rainy Day Cloud Painter",
+    "year": "2021",
+    "image": "images/gadget-card.svg",
+    "description": "A gentle weather-mood project that turns gloomy afternoons into tiny sky sketches and indoor adventure plans."
+  }
+]

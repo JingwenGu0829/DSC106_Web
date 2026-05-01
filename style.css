@@ -288,6 +288,144 @@ button {
   gap: 1.25rem;
 }
 
+.projects-visualization {
+  display: grid;
+  gap: 1rem;
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.chart-header h2 {
+  margin: 0;
+}
+
+.reset-year-filter {
+  grid-column: auto;
+  justify-self: auto;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: canvas;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.reset-year-filter:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.reset-year-filter:not(:disabled):hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+.chart-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+#projects-pie-plot {
+  flex: 0 1 20rem;
+  max-width: 20em;
+  min-width: 13rem;
+  margin-block: 1rem;
+  overflow: visible;
+}
+
+#projects-pie-plot path {
+  cursor: pointer;
+  transition:
+    opacity 220ms ease,
+    fill 220ms ease;
+}
+
+#projects-pie-plot:has(path:hover) path:not(:hover) {
+  opacity: 0.5;
+}
+
+#projects-pie-plot path.selected {
+  fill: oklch(63% 0.22 25);
+}
+
+.plot-empty {
+  fill: var(--color-muted);
+  font-size: 0.25rem;
+  font-weight: 700;
+}
+
+.legend {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: 0.65rem 0.85rem;
+  margin: 0;
+  padding: 1rem;
+  list-style: none;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: color-mix(in oklch, canvas 92%, white 8%);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid transparent;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.legend-item:hover,
+.legend-item:focus-visible {
+  border-color: color-mix(in oklch, var(--color), canvastext 35%);
+  background: color-mix(in oklch, var(--color), canvas 82%);
+}
+
+.legend-item.selected {
+  --color: oklch(63% 0.22 25) !important;
+  border-color: var(--color);
+  background: color-mix(in oklch, var(--color), canvas 82%);
+}
+
+.legend-item .swatch {
+  flex: 0 0 auto;
+  width: 0.9rem;
+  aspect-ratio: 1;
+  border-radius: 0.25rem;
+  background: var(--color);
+}
+
+.legend-item em {
+  margin-left: auto;
+  color: var(--color-muted);
+  font-style: normal;
+}
+
+.searchBar {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: canvas;
+  color: canvastext;
+}
+
 .projects article {
   display: grid;
   grid-template-rows: auto auto 1fr;
@@ -304,7 +442,8 @@ button {
   box-shadow: 0 0.45rem 1.2rem color-mix(in srgb, var(--color-accent), transparent 88%);
 }
 
-.projects h2 {
+.projects h2,
+.projects h3 {
   margin: 0;
 }
 
@@ -317,6 +456,49 @@ button {
 
 .projects p {
   margin: 0;
+}
+
+.project-details {
+  display: grid;
+  align-content: start;
+  gap: 0.8rem;
+}
+
+.project-year {
+  width: fit-content;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  color: color-mix(in oklch, var(--color-accent), canvastext 26%);
+  background: var(--color-accent-soft);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.empty-message {
+  color: var(--color-muted);
+}
+
+#profile-stats dl {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem 1rem;
+  margin: 0;
+  text-align: center;
+}
+
+#profile-stats dt {
+  grid-row: 1;
+  color: var(--color-muted);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+#profile-stats dd {
+  grid-row: 2;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: color-mix(in oklch, var(--color-accent), canvastext 28%);
 }
 
 .resume-item + .resume-item {
@@ -494,6 +676,7 @@ footer {
   .info-grid,
   .resume-columns,
   .contact-layout,
+  .chart-container,
   .report-grid {
     grid-template-columns: 1fr;
     flex-direction: column;
@@ -516,6 +699,35 @@ footer {
   .color-scheme {
     top: 0.75rem;
     right: 1rem;
+  }
+
+  #projects-pie-plot {
+    width: min(100%, 18rem);
+    min-width: 0;
+  }
+
+  .legend {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .chart-header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  #profile-stats dl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    text-align: left;
+  }
+
+  #profile-stats dt,
+  #profile-stats dd {
+    grid-row: auto;
+  }
+
+  #profile-stats dd {
+    margin-bottom: 0.75rem;
   }
 
   .resume-item header {

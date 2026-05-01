@@ -10,7 +10,7 @@
     <main>
       <header class="page-header">
         <p class="eyebrow">Selected Gadget Highlights</p>
-        <h1>Project Collection</h1>
+        <h1 class="projects-title">Project Collection</h1>
         <p class="lead">
           Each project below represents a signature Doraemon gadget or support system.
           The layout is intentionally responsive so the cards reorganize smoothly as
@@ -18,85 +18,37 @@
         </p>
       </header>
 
-      <section class="projects" aria-label="Doraemon gadget projects">
-        <article>
-          <h2>Anywhere Door</h2>
-          <img src="../images/gadget-card.svg" alt="">
-          <p>
-            A teleportation gateway designed for instant travel, surprise visits,
-            and dramatically reducing commute times across space.
-          </p>
-        </article>
-
-        <article>
-          <h2>Take-copter</h2>
-          <img src="../images/gadget-card.svg" alt="">
-          <p>
-            A compact flight accessory that gives users temporary aerial mobility
-            when stairs, traffic, or geography become a problem.
-          </p>
-        </article>
-
-        <article>
-          <h2>Time Machine</h2>
-          <img src="../images/gadget-card.svg" alt="">
-          <p>
-            A timeline navigation platform for investigating cause and effect,
-            repairing mistakes, and learning from alternate outcomes.
-          </p>
-        </article>
-
-        <article>
-          <h2>Memory Bread</h2>
-          <img src="../images/gadget-card.svg" alt="">
-          <p>
-            A high-risk but memorable studying tool that transfers textbook content
-            instantly, ideal for dramatic pre-exam preparation.
-          </p>
-        </article>
-
-        <article>
-          <h2>Small Light</h2>
-          <img src="../images/gadget-card.svg" alt="">
-          <p>
-            A precision scaling device for making oversized obstacles manageable
-            and opening up more creative pathways through a challenge.
-          </p>
-        </article>
-
-        <article>
-          <h2>Big Light</h2>
-          <img src="../images/gadget-card.svg" alt="">
-          <p>
-            The companion tool to Small Light, useful when small ideas need extra
-            presence, visibility, or physical scale.
-          </p>
-        </article>
-
-        <article>
-          <h2>Translation Jelly</h2>
-          <img src="../images/gadget-card.svg" alt="">
-          <p>
-            A communication aid that removes language barriers and makes cross-cultural
-            teamwork possible in seconds.
-          </p>
-        </article>
-
-        <article>
-          <h2>Four-Dimensional Pocket</h2>
-          <img src="../images/gadget-card.svg" alt="">
-          <p>
-            Doraemon's core storage platform, balancing rapid retrieval, huge
-            capacity, and the occasional chaos of too many useful tools.
-          </p>
-        </article>
+      <section class="panel projects-visualization">
+        <div class="chart-header">
+          <h2>Projects by Year</h2>
+          <button class="reset-year-filter" type="button" disabled>Show all years</button>
+        </div>
+        <div class="chart-container">
+          <svg
+            id="projects-pie-plot"
+            viewBox="-50 -50 100 100"
+            role="img"
+            aria-label="Pie chart of projects grouped by year"
+          ></svg>
+          <ul class="legend" aria-label="Project years"></ul>
+        </div>
       </section>
+
+      <input
+        class="searchBar"
+        type="search"
+        aria-label="Search projects"
+        placeholder="Search projects..."
+      >
+
+      <section class="projects" aria-label="Doraemon gadget projects"></section>
     </main>
 
     <footer>
-      <p>Responsive card layout built to satisfy the CSS grid goals from Lab 2.</p>
+      <p>Project cards, filters, and the year chart are rendered from JSON for Lab 5.</p>
     </footer>
 
     <script src="../global.js" type="module"></script>
+    <script src="projects.js" type="module"></script>
   </body>
 </html>
