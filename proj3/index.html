@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 3: California Climate Futures</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="project3.css">
+  </head>
+  <body class="project3-page">
+    <main class="project3">
+      <header class="p3-header">
+        <p class="eyebrow">DSC 106 Project 3</p>
+        <h1>California Climate Futures</h1>
+        <p class="lead">
+          Question: How severe is projected warming in California cities under
+          different emissions futures? One map; darker color means hotter than
+          the 1995-2014 baseline.
+        </p>
+      </header>
+
+      <section class="climate-map-card" aria-labelledby="map-title">
+        <div class="map-copy">
+          <div>
+            <h2 id="map-title">City Boundaries Colored by Warming Severity</h2>
+            <p id="map-subtitle">
+              Real Census city polygons for Los Angeles, Sacramento, San Diego,
+              and San Francisco.
+            </p>
+          </div>
+          <p class="p3-status" id="data-status" aria-live="polite">Loading data...</p>
+        </div>
+
+        <div class="map-workspace">
+          <div class="map-stage">
+            <svg
+              id="california-climate-map"
+              viewBox="0 0 860 760"
+              role="img"
+              aria-label="California map with city boundaries colored by projected warming severity"
+            ></svg>
+          </div>
+
+          <aside class="map-controls" aria-label="Map controls">
+            <div>
+              <h3>Emissions Future</h3>
+              <div class="scenario-buttons" id="scenario-buttons" role="group" aria-label="Choose emissions future"></div>
+            </div>
+
+            <label class="year-control">
+              <span>Year</span>
+              <input id="year-slider" type="range" min="2015" max="2100" step="1" value="2050">
+              <output id="year-output" for="year-slider">2050</output>
+            </label>
+
+            <p class="map-summary" id="map-summary" aria-live="polite"></p>
+          </aside>
+        </div>
+
+        <div class="p3-tooltip" id="p3-tooltip" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="p3-writeup" aria-labelledby="writeup-title">
+        <h2 id="writeup-title">Write-Up</h2>
+
+        <article class="p3-writeup-grid">
+          <section>
+            <h3>Motivation and Dataset</h3>
+            <p>TODO</p>
+          </section>
+
+          <section>
+            <h3>Transformations</h3>
+            <p>TODO</p>
+          </section>
+
+          <section>
+            <h3>Design Rationale</h3>
+            <p>TODO</p>
+          </section>
+
+          <section>
+            <h3>Development Process</h3>
+            <p>TODO</p>
+          </section>
+        </article>
+
+        <p class="source-note">TODO</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>Built with D3 for DSC 106 Project 3.</p>
+    </footer>
+
+    <script src="../global.js" type="module"></script>
+    <script src="project3.js" type="module"></script>
+  </body>
+</html>

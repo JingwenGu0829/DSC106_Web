@@ -12,6 +12,7 @@ const pages = [
   { url: "", title: "Home" },
   { url: "projects/", title: "Projects" },
   { url: "proj2/project2_report.html", title: "Proj2" },
+  { url: "proj3/", title: "Proj3" },
   { url: "contact/", title: "Contact" },
   { url: "cv/", title: "CV" },
   { url: "https://github.com/JingwenGu0829", title: "GitHub" },

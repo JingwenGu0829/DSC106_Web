@@ -1,0 +1,310 @@
+.project3-page {
+  max-width: 1220px;
+}
+
+.project3 {
+  gap: 1.25rem;
+}
+
+.p3-header {
+  display: grid;
+  gap: 0.35rem;
+  padding-top: 0.5rem;
+}
+
+.p3-header h1 {
+  margin-bottom: 0.15rem;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+}
+
+.p3-header .lead {
+  max-width: 82ch;
+  margin: 0;
+}
+
+.climate-map-card,
+.p3-writeup {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: color-mix(in oklch, canvas 96%, white 4%);
+}
+
+.map-copy {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+}
+
+.map-copy h2,
+.map-controls h3,
+.p3-writeup h2,
+.p3-writeup h3 {
+  margin-bottom: 0.25rem;
+}
+
+.map-copy p,
+.p3-status,
+.source-note {
+  color: var(--color-muted);
+}
+
+.map-copy p,
+.map-summary,
+.source-note {
+  margin: 0;
+}
+
+.p3-status {
+  flex: 0 0 auto;
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+}
+
+.map-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18rem;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.map-stage {
+  min-width: 0;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 25% 15%, rgb(32 114 146 / 0.16), transparent 20rem),
+    linear-gradient(135deg, #07111d, #142533 54%, #182a24);
+  overflow: hidden;
+}
+
+#california-climate-map {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.map-controls {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklch, canvas 97%, white 3%),
+      color-mix(in oklch, canvas 91%, #f6c85f 9%)
+    );
+}
+
+.scenario-buttons {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.scenario-button {
+  grid-column: auto;
+  justify-self: stretch;
+  display: grid;
+  gap: 0.08rem;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: canvas;
+  color: var(--color-text);
+  text-align: left;
+}
+
+.scenario-button strong {
+  font-size: 1.05rem;
+}
+
+.scenario-button span {
+  color: color-mix(in oklch, var(--color-accent), canvastext 20%);
+  font-weight: 900;
+}
+
+.scenario-button small {
+  color: var(--color-muted);
+  font-size: 0.84rem;
+}
+
+.scenario-button[aria-pressed="true"] {
+  border-color: color-mix(in oklch, #d9480f, canvastext 15%);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in oklch, #ffe066, canvas 58%),
+      color-mix(in oklch, #f03e3e, canvas 74%)
+    );
+  box-shadow: 0 0.5rem 1.1rem color-mix(in srgb, #d9480f, transparent 78%);
+}
+
+.year-control {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.year-control span {
+  font-weight: 900;
+}
+
+.year-control input {
+  width: 100%;
+}
+
+.year-control output {
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 900;
+  background: canvas;
+}
+
+.map-summary {
+  padding: 0.85rem;
+  border-left: 4px solid #d9480f;
+  border-radius: 0 8px 8px 0;
+  background: color-mix(in oklch, #ffe8cc, canvas 34%);
+  color: color-mix(in oklch, canvastext 82%, #d9480f 18%);
+}
+
+.map-bg {
+  fill: transparent;
+}
+
+.map-title {
+  fill: #f8fafc;
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.map-subtitle-svg {
+  fill: rgb(226 232 240 / 0.78);
+  font-size: 0.98rem;
+}
+
+.state-outline {
+  fill: rgb(255 255 255 / 0.055);
+  stroke: rgb(226 232 240 / 0.55);
+  stroke-width: 1.35;
+}
+
+.city-shape {
+  stroke: rgb(255 255 255 / 0.92);
+  filter: drop-shadow(0 0 9px rgb(255 204 77 / 0.34));
+  cursor: pointer;
+  transition:
+    filter 160ms ease,
+    stroke-width 160ms ease,
+    opacity 160ms ease;
+}
+
+.city-shape:hover,
+.city-shape:focus-visible {
+  filter: drop-shadow(0 0 16px rgb(255 193 7 / 0.75));
+  stroke-width: 5;
+}
+
+.city-label {
+  fill: #f8fafc;
+  font-size: 0.93rem;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  pointer-events: none;
+  paint-order: stroke;
+  stroke: rgb(2 6 23 / 0.82);
+  stroke-width: 4px;
+}
+
+.legend-title {
+  fill: rgb(226 232 240 / 0.88);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.axis text {
+  fill: rgb(226 232 240 / 0.82);
+  font-size: 0.78rem;
+}
+
+.axis path,
+.axis line {
+  stroke: rgb(226 232 240 / 0.32);
+}
+
+.p3-tooltip {
+  position: fixed;
+  z-index: 10;
+  max-width: 18rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: color-mix(in oklch, canvas 98%, white 2%);
+  color: var(--color-text);
+  box-shadow: 0 0.65rem 1.5rem color-mix(in srgb, black, transparent 88%);
+  font-size: 0.88rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 1rem));
+}
+
+.p3-tooltip strong {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.p3-tooltip dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.18rem 0.7rem;
+  margin: 0;
+}
+
+.p3-tooltip dt {
+  color: var(--color-muted);
+  font-weight: 800;
+}
+
+.p3-tooltip dd {
+  margin: 0;
+  text-align: right;
+}
+
+.p3-writeup-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.5rem;
+}
+
+.p3-writeup p {
+  margin-bottom: 0;
+}
+
+.source-note {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.93rem;
+}
+
+@media (max-width: 860px) {
+  .map-copy,
+  .map-workspace,
+  .p3-writeup-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .map-copy {
+    display: grid;
+  }
+
+  .map-controls {
+    order: -1;
+  }
+}
