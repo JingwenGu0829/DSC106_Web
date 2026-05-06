@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 3: California Climate Futures</title>
+    <title>Project 3: U.S. Climate Futures</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="project3.css">
   </head>
@@ -11,21 +11,21 @@
     <main class="project3">
       <header class="p3-header">
         <p class="eyebrow">DSC 106 Project 3</p>
-        <h1>California Climate Futures</h1>
+        <h1>U.S. Climate Futures</h1>
         <p class="lead">
-          Question: How severe is projected warming in California cities under
-          different emissions futures? One map; darker color means hotter than
-          the 1995-2014 baseline.
+          Question: How severe is projected warming across major U.S. cities?
+          Each circle's color and size show temperature anomaly from the 1995-2014
+          baseline.
         </p>
       </header>
 
       <section class="climate-map-card" aria-labelledby="map-title">
         <div class="map-copy">
           <div>
-            <h2 id="map-title">City Boundaries Colored by Warming Severity</h2>
+            <h2 id="map-title">Major U.S. Cities Colored by Warming Severity</h2>
             <p id="map-subtitle">
-              Real Census city polygons for Los Angeles, Sacramento, San Diego,
-              and San Francisco.
+              Transparent bubbles grow and darken as projected temperature
+              deviation becomes more severe.
             </p>
           </div>
           <p class="p3-status" id="data-status" aria-live="polite">Loading data...</p>
@@ -34,10 +34,10 @@
         <div class="map-workspace">
           <div class="map-stage">
             <svg
-              id="california-climate-map"
+              id="us-climate-map"
               viewBox="0 0 860 760"
               role="img"
-              aria-label="California map with city boundaries colored by projected warming severity"
+              aria-label="United States map with major city bubbles colored and sized by projected warming severity"
             ></svg>
           </div>
 
@@ -69,15 +69,15 @@
             <p>
               Climate change can feel distant when it is shown only as a global
               average, so we wanted to make the projections easier to connect
-              to places people recognize in California. Our question is how much
-              warming four major California cities may experience under
-              different emissions futures. We used a subset of the CMIP6 climate
-              model data, focused on annual near surface air temperature from
-              the CESM2 model. The data includes Los Angeles, Sacramento, San
-              Diego, and San Francisco, with yearly temperatures and temperature
-              change compared with a 1995 to 2014 baseline. We also used
-              GeoJSON boundary files for California and the four city polygons
-              so the climate values could be shown directly on a map.
+              to places people recognize across the United States. Our question
+              is how severe projected warming becomes for major U.S. cities
+              under different emissions futures. We used a subset of the CMIP6
+              climate model data, focused on annual near-surface air temperature
+              from the CESM2 model. The data includes 50 major U.S. cities, with
+              yearly temperatures and temperature change compared with a 1995 to
+              2014 baseline. We also used a U.S. states GeoJSON file as the map
+              reference layer so the city-level climate values could be shown in
+              their geographic context.
             </p>
           </section>
 
@@ -91,11 +91,12 @@
               temperature anomaly column, which shows how many degrees Celsius
               each city is above or below its 1995 to 2014 baseline. This makes
               the cities easier to compare because the color represents warming
-              relative to each city's own recent climate. In the map data, we
-              filtered the city boundary GeoJSON to only Los Angeles,
-              Sacramento, San Diego, and San Francisco, then joined each city
-              polygon to the matching climate record for the selected year and
-              scenario.
+              relative to each city's own recent climate. The final CSV has one
+              row per city, year, and scenario, giving 12,900 city-pathway-year
+              records. In D3, each selected year and scenario is joined to the
+              city's latitude and longitude, projected onto the U.S. map, and
+              drawn as a bubble whose color and radius both come from the same
+              anomaly value.
             </p>
           </section>
 
@@ -103,17 +104,18 @@
             <h3>Design Rationale</h3>
             <p>
               We chose a map because the main question is about how warming
-              differs across places in California. The city boundary polygons
-              make the visualization feel more specific than using only points,
-              while still keeping the view simple enough to compare the four
-              cities. Color is used to show warming severity, with darker and
-              warmer colors representing larger temperature increases. The
-              three buttons for low, middle, and high emissions let viewers
-              switch between possible climate futures. The year slider lets
-              viewers choose a year from 2015 to 2100, which makes it easier to
-              see how warming builds over time. We also added tooltips so
-              viewers can get the exact warming value, temperature, baseline,
-              year, and scenario without crowding the map with too much text.
+              differs across places. A bubble map lets us show many more cities
+              than a boundary map while keeping the page focused on one visual
+              question. Color is used to show warming severity, with darker and
+              warmer colors representing larger temperature increases. Bubble
+              size encodes the same severity value, so the most extreme city
+              projections become easier to notice at a glance. The three
+              buttons for low, middle, and high emissions let viewers switch
+              between possible climate futures. The year slider lets viewers
+              choose a year from 2015 to 2100, which makes it easier to see how
+              warming builds over time. We labeled only the hottest cities for
+              the selected view and used tooltips for the exact city, warming,
+              baseline, year, and scenario values.
             </p>
           </section>
 
@@ -121,30 +123,26 @@
             <h3>Development Process</h3>
             <p>
               We started by narrowing the project to one main question about
-              projected warming in California cities. After choosing the CMIP6
-              temperature data, we cleaned the dataset into a smaller CSV with
-              the cities, years, scenarios, and temperature anomalies needed for
-              the visualization. The next step was connecting the climate data
-              to the city boundary GeoJSON files. We used D3 to draw the map,
-              set up the geographic projection, load the CSV and GeoJSON files,
-              and update the colors when the viewer changes the year or
-              emissions future. Most of the development time went into getting
-              the map projection, color scale, slider, buttons, and tooltips to
-              work together. We also spent time revising the design so the
-              interaction stayed focused and the visualization did not try to
-              show too many things at once. Work was divided between data
-              preparation, D3 map implementation, interaction design, and
-              writeup editing. In total, we spent about 5 people hours, with
-              the most time going toward cleaning the data, joining it to the
-              GeoJSON boundaries, and making the slider, buttons, and tooltips
-              update smoothly.
+              projected warming in recognizable cities. After choosing the
+              CMIP6 temperature data, we cleaned the dataset into a smaller CSV
+              with the cities, years, scenarios, and temperature anomalies
+              needed for the visualization. We first prototyped a smaller
+              California version, then expanded the design to 50 major U.S.
+              cities after deciding that transparent circles would scale better
+              than city polygons. We used D3 to draw the U.S. map, set up the
+              geographic projection, load the CSV and GeoJSON files, and update
+              the circles when the viewer changes the year or emissions future.
+              Most of the development time went into preparing the climate
+              subset, choosing an encoding that stayed readable with many
+              cities, and tuning the color scale, size scale, slider, buttons,
+              labels, and tooltips so the visualization stayed focused.
             </p>
           </section>
         </article>
 
         <p class="source-note">
-          Data sources: CMIP6 climate model temperature projections and GeoJSON
-          boundary files for California and selected California cities.
+          Data sources: CMIP6 CESM2 near-surface air temperature projections and
+          a U.S. states GeoJSON reference layer.
         </p>
       </section>
     </main>
