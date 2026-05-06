@@ -66,26 +66,86 @@
         <article class="p3-writeup-grid">
           <section>
             <h3>Motivation and Dataset</h3>
-            <p>TODO</p>
+            <p>
+              Climate change can feel distant when it is shown only as a global
+              average, so we wanted to make the projections easier to connect
+              to places people recognize in California. Our question is how much
+              warming four major California cities may experience under
+              different emissions futures. We used a subset of the CMIP6 climate
+              model data, focused on annual near surface air temperature from
+              the CESM2 model. The data includes Los Angeles, Sacramento, San
+              Diego, and San Francisco, with yearly temperatures and temperature
+              change compared with a 1995 to 2014 baseline. We also used
+              GeoJSON boundary files for California and the four city polygons
+              so the climate values could be shown directly on a map.
+            </p>
           </section>
 
           <section>
             <h3>Transformations</h3>
-            <p>TODO</p>
+            <p>
+              We started with annual temperature records for each city, year,
+              and climate scenario. To keep the visualization focused, we
+              filtered the data to three SSP futures: SSP1 2.6, SSP2 4.5, and
+              SSP5 8.5. Instead of mapping raw temperature alone, we used the
+              temperature anomaly column, which shows how many degrees Celsius
+              each city is above or below its 1995 to 2014 baseline. This makes
+              the cities easier to compare because the color represents warming
+              relative to each city's own recent climate. In the map data, we
+              filtered the city boundary GeoJSON to only Los Angeles,
+              Sacramento, San Diego, and San Francisco, then joined each city
+              polygon to the matching climate record for the selected year and
+              scenario.
+            </p>
           </section>
 
           <section>
             <h3>Design Rationale</h3>
-            <p>TODO</p>
+            <p>
+              We chose a map because the main question is about how warming
+              differs across places in California. The city boundary polygons
+              make the visualization feel more specific than using only points,
+              while still keeping the view simple enough to compare the four
+              cities. Color is used to show warming severity, with darker and
+              warmer colors representing larger temperature increases. The
+              three buttons for low, middle, and high emissions let viewers
+              switch between possible climate futures. The year slider lets
+              viewers choose a year from 2015 to 2100, which makes it easier to
+              see how warming builds over time. We also added tooltips so
+              viewers can get the exact warming value, temperature, baseline,
+              year, and scenario without crowding the map with too much text.
+            </p>
           </section>
 
           <section>
             <h3>Development Process</h3>
-            <p>TODO</p>
+            <p>
+              We started by narrowing the project to one main question about
+              projected warming in California cities. After choosing the CMIP6
+              temperature data, we cleaned the dataset into a smaller CSV with
+              the cities, years, scenarios, and temperature anomalies needed for
+              the visualization. The next step was connecting the climate data
+              to the city boundary GeoJSON files. We used D3 to draw the map,
+              set up the geographic projection, load the CSV and GeoJSON files,
+              and update the colors when the viewer changes the year or
+              emissions future. Most of the development time went into getting
+              the map projection, color scale, slider, buttons, and tooltips to
+              work together. We also spent time revising the design so the
+              interaction stayed focused and the visualization did not try to
+              show too many things at once. Work was divided between data
+              preparation, D3 map implementation, interaction design, and
+              writeup editing. In total, we spent about 5 people hours, with
+              the most time going toward cleaning the data, joining it to the
+              GeoJSON boundaries, and making the slider, buttons, and tooltips
+              update smoothly.
+            </p>
           </section>
         </article>
 
-        <p class="source-note">TODO</p>
+        <p class="source-note">
+          Data sources: CMIP6 climate model temperature projections and GeoJSON
+          boundary files for California and selected California cities.
+        </p>
       </section>
     </main>
 
