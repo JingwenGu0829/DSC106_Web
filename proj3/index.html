@@ -67,82 +67,88 @@
           <section>
             <h3>Motivation and Dataset</h3>
             <p>
-              Climate change can feel distant when it is shown only as a global
-              average, so we wanted to make the projections easier to connect
-              to places people recognize across the United States. Our question
-              is how severe projected warming becomes for major U.S. cities
-              under different emissions futures. We used a subset of the CMIP6
-              climate model data, focused on annual near-surface air temperature
-              from the CESM2 model. The data includes 50 major U.S. cities, with
-              yearly temperatures and temperature change compared with a 1995 to
-              2014 baseline. We also used a U.S. states GeoJSON file as the map
-              reference layer so the city-level climate values could be shown in
-              their geographic context.
+              Climate projections are often presented as global averages, which makes it
+              difficult to understand how warming may differ across recognizable places.
+              Our goal was to show how projected warming changes across major U.S. cities
+              under different emissions futures. We used a subset of the CMIP6 climate
+              model data from the CESM2 model, focused on annual near-surface air
+              temperature projections. The dataset contains yearly records for 50 major
+              U.S. cities across multiple SSP emissions pathways from 2015 to 2100. Each
+              row includes projected temperature and a temperature anomaly relative to a
+              1995 to 2014 baseline. We also used a U.S. states GeoJSON file so the city
+              values could be positioned within a geographic reference map rather than
+              shown as isolated points.
             </p>
           </section>
 
           <section>
             <h3>Transformations</h3>
             <p>
-              We started with annual temperature records for each city, year,
-              and climate scenario. To keep the visualization focused, we
-              filtered the data to three SSP futures: SSP1 2.6, SSP2 4.5, and
-              SSP5 8.5. Instead of mapping raw temperature alone, we used the
-              temperature anomaly column, which shows how many degrees Celsius
-              each city is above or below its 1995 to 2014 baseline. This makes
-              the cities easier to compare because the color represents warming
-              relative to each city's own recent climate. The final CSV has one
-              row per city, year, and scenario, giving 12,900 city-pathway-year
-              records. In D3, each selected year and scenario is joined to the
-              city's latitude and longitude, projected onto the U.S. map, and
-              drawn as a bubble whose color and radius both come from the same
-              anomaly value.
+              We filtered the original CMIP6 dataset to three commonly used SSP pathways:
+              SSP1-2.6, SSP2-4.5, and SSP5-8.5. Instead of displaying raw temperature, we
+              visualized temperature anomaly relative to each city's 1995 to 2014 baseline.
+              This transformation made the values more comparable because cities with very
+              different climates could still be evaluated using the same warming scale.
+              The final CSV contains one row per city, year, and emissions scenario,
+              producing 12,900 records in total. During rendering, the selected year and
+              scenario are joined with each city's latitude and longitude and projected
+              onto a U.S. map using D3's Albers USA projection. We also filtered out
+              Alaska, Hawaii, and Puerto Rico from the GeoJSON layer so the continental
+              U.S. layout remained compact and visually readable at this screen size.
             </p>
           </section>
 
           <section>
             <h3>Design Rationale</h3>
             <p>
-              We chose a map because the main question is about how warming
-              differs across places. A bubble map lets us show many more cities
-              than a boundary map while keeping the page focused on one visual
-              question. Color is used to show warming severity, with darker and
-              warmer colors representing larger temperature increases. Bubble
-              size encodes the same severity value, so the most extreme city
-              projections become easier to notice at a glance. The three
-              buttons for low, middle, and high emissions let viewers switch
-              between possible climate futures. The year slider lets viewers
-              choose a year from 2015 to 2100, which makes it easier to see how
-              warming builds over time. We labeled only the hottest cities for
-              the selected view and used tooltips for the exact city, warming,
-              baseline, year, and scenario values.
+              We chose a bubble map because the dataset is city-based rather than
+              state-based. A choropleth would incorrectly imply that the climate values
+              apply uniformly across entire regions, while circles preserve the localized
+              nature of the projections. Color and circle size both encode warming
+              severity, creating redundant visual encodings that make high-anomaly cities
+              easier to identify quickly. We used a sequential yellow-to-red color scale
+              because warmer colors naturally correspond to increasing heat severity. Bubble
+              radius uses a square-root scale so that very large anomaly values do not
+              visually dominate the map. Transparent circles and blend modes reduce visual
+              clutter when geographically nearby cities overlap. The emissions buttons
+              allow viewers to compare low-, medium-, and high-emissions futures directly,
+              while the year slider supports temporal exploration from 2015 through 2100.
+              We intentionally labeled only the five hottest cities in each view to reduce
+              clutter, while exact values remain available through interactive tooltips.
+              We also included keyboard focus states and ARIA labels so the visualization
+              supports limited keyboard and screen-reader accessibility.
             </p>
           </section>
 
           <section>
             <h3>Development Process</h3>
             <p>
-              We started by narrowing the project to one main question about
-              projected warming in recognizable cities. After choosing the
-              CMIP6 temperature data, we cleaned the dataset into a smaller CSV
-              with the cities, years, scenarios, and temperature anomalies
-              needed for the visualization. We first prototyped a smaller
-              California version, then expanded the design to 50 major U.S.
-              cities after deciding that transparent circles would scale better
-              than city polygons. We used D3 to draw the U.S. map, set up the
-              geographic projection, load the CSV and GeoJSON files, and update
-              the circles when the viewer changes the year or emissions future.
-              Most of the development time went into preparing the climate
-              subset, choosing an encoding that stayed readable with many
-              cities, and tuning the color scale, size scale, slider, buttons,
-              labels, and tooltips so the visualization stayed focused.
+              We began by narrowing the project to a single question about projected
+              warming severity across recognizable U.S. cities. Early prototypes explored
+              both state-based choropleths and city polygons, but these approaches either
+              overstated geographic precision or became visually cluttered with many data
+              points. We eventually moved to transparent city bubbles because they scaled
+              more effectively while preserving geographic context. The dataset was cleaned
+              into a smaller CSV containing only the variables required for the
+              visualization, including city coordinates, yearly anomalies, and SSP
+              scenarios. We used D3 to load the CSV and GeoJSON files, construct the map
+              projection, draw the state outlines, generate legends, and update the circles
+              interactively whenever the selected year or emissions pathway changes. A
+              large portion of the development time went into tuning the interaction and
+              readability details, including circle scaling, overlap behavior, tooltip
+              placement, labeling thresholds, summary text generation, responsive layout,
+              and accessibility attributes. Team responsibilities were divided across data
+              preparation, visualization and interaction implementation, and write-up and
+              presentation refinement. Roughly 25 people-hours were spent across the team,
+              with most of the time dedicated to data preparation, interaction debugging,
+              and visual refinement.
             </p>
           </section>
         </article>
 
         <p class="source-note">
-          Data sources: CMIP6 CESM2 near-surface air temperature projections and
-          a U.S. states GeoJSON reference layer.
+          Data sources: CMIP6 CESM2 near-surface air temperature projections and a
+          U.S. states GeoJSON reference layer used for geographic context.
         </p>
       </section>
     </main>
