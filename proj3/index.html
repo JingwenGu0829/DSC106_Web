@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 3: California Climate Futures</title>
+    <title>Project 3: U.S. Climate Futures</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="project3.css">
   </head>
@@ -11,21 +11,21 @@
     <main class="project3">
       <header class="p3-header">
         <p class="eyebrow">DSC 106 Project 3</p>
-        <h1>California Climate Futures</h1>
+        <h1>U.S. Climate Futures</h1>
         <p class="lead">
-          Question: How severe is projected warming in California cities under
-          different emissions futures? One map; darker color means hotter than
-          the 1995-2014 baseline.
+          Question: How severe is projected warming across major U.S. cities?
+          Each circle's color and size show temperature anomaly from the 1995-2014
+          baseline.
         </p>
       </header>
 
       <section class="climate-map-card" aria-labelledby="map-title">
         <div class="map-copy">
           <div>
-            <h2 id="map-title">City Boundaries Colored by Warming Severity</h2>
+            <h2 id="map-title">Major U.S. Cities Colored by Warming Severity</h2>
             <p id="map-subtitle">
-              Real Census city polygons for Los Angeles, Sacramento, San Diego,
-              and San Francisco.
+              Transparent bubbles grow and darken as projected temperature
+              deviation becomes more severe.
             </p>
           </div>
           <p class="p3-status" id="data-status" aria-live="polite">Loading data...</p>
@@ -34,10 +34,10 @@
         <div class="map-workspace">
           <div class="map-stage">
             <svg
-              id="california-climate-map"
+              id="us-climate-map"
               viewBox="0 0 860 760"
               role="img"
-              aria-label="California map with city boundaries colored by projected warming severity"
+              aria-label="United States map with major city bubbles colored and sized by projected warming severity"
             ></svg>
           </div>
 
@@ -67,17 +67,17 @@
           <section>
             <h3>Motivation and Dataset</h3>
             <p>
-                Climate projections are often presented as global averages, which makes it
-                difficult to understand how warming may differ across recognizable places.
-                Our goal was to show how projected warming changes across major U.S. cities
-                under different emissions futures. We used a subset of the CMIP6 climate
-                model data from the CESM2 model, focused on annual near-surface air
-                temperature projections. The dataset contains yearly records for 50 major
-                U.S. cities across multiple SSP emissions pathways from 2015 to 2100. Each
-                row includes projected temperature and a temperature anomaly relative to a
-                1995 to 2014 baseline. We also used a U.S. states GeoJSON file so the city
-                values could be positioned within a geographic reference map rather than
-                shown as isolated points.
+              Climate projections are often presented as global averages, which makes it
+              difficult to understand how warming may differ across recognizable places.
+              Our goal was to show how projected warming changes across major U.S. cities
+              under different emissions futures. We used a subset of the CMIP6 climate
+              model data from the CESM2 model, focused on annual near-surface air
+              temperature projections. The dataset contains yearly records for 50 major
+              U.S. cities across multiple SSP emissions pathways from 2015 to 2100. Each
+              row includes projected temperature and a temperature anomaly relative to a
+              1995 to 2014 baseline. We also used a U.S. states GeoJSON file so the city
+              values could be positioned within a geographic reference map rather than
+              shown as isolated points.
             </p>
           </section>
 
@@ -109,14 +109,14 @@
               easier to identify quickly. We used a sequential yellow-to-red color scale
               because warmer colors naturally correspond to increasing heat severity. Bubble
               radius uses a square-root scale so that very large anomaly values do not
-              visually dominate the map. Transparent circles and blend modes reduce visual clutter
-              when geographically nearby cities overlap. The emissions buttons allow
-              viewers to compare low-, medium-, and high-emissions futures directly, while
-              the year slider supports temporal exploration from 2015 through 2100. We
-              intentionally labeled only the five hottest cities in each view to reduce
+              visually dominate the map. Transparent circles and blend modes reduce visual
+              clutter when geographically nearby cities overlap. The emissions buttons
+              allow viewers to compare low-, medium-, and high-emissions futures directly,
+              while the year slider supports temporal exploration from 2015 through 2100.
+              We intentionally labeled only the five hottest cities in each view to reduce
               clutter, while exact values remain available through interactive tooltips.
-              We also included keyboard focus states and ARIA labels so the
-              visualization supports limited keyboard and screen-reader accessibility.
+              We also included keyboard focus states and ARIA labels so the visualization
+              supports limited keyboard and screen-reader accessibility.
             </p>
           </section>
 

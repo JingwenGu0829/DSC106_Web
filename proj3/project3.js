@@ -1,26 +1,25 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 
-const DATA_URL = "data/california_city_annual_tas.csv";
-const CALIFORNIA_URL = "data/california.geojson";
-const CITY_SHAPES_URL = "data/california_city_places.geojson";
+const DATA_URL = "data/us_major_city_annual_tas.csv";
+const STATES_URL = "data/us-states.geojson";
 
 const scenarios = [
   {
-    id: "SSP1-2.6",
+    id: "ssp126",
     label: "Low",
     fullLabel: "Low emissions",
     note: "SSP1-2.6",
     description: "rapid climate action",
   },
   {
-    id: "SSP2-4.5",
+    id: "ssp245",
     label: "Middle",
     fullLabel: "Middle emissions",
     note: "SSP2-4.5",
     description: "moderate action",
   },
   {
-    id: "SSP5-8.5",
+    id: "ssp585",
     label: "High",
     fullLabel: "High emissions",
     note: "SSP5-8.5",
@@ -28,16 +27,8 @@ const scenarios = [
   },
 ];
 
-const cityOrder = ["San Francisco", "Sacramento", "Los Angeles", "San Diego"];
-const labelOffsets = new Map([
-  ["San Francisco", [-56, 2]],
-  ["Sacramento", [14, -10]],
-  ["Los Angeles", [16, 12]],
-  ["San Diego", [16, 18]],
-]);
-
 const state = {
-  scenario: "SSP5-8.5",
+  scenario: "ssp585",
   year: 2050,
 };
 
@@ -50,18 +41,18 @@ const els = {
   tooltip: document.querySelector("#p3-tooltip"),
 };
 
-const svg = d3.select("#california-climate-map");
+const svg = d3.select("#us-climate-map");
 const formatDeg = (value) =>
   Number.isFinite(value) ? `${d3.format("+.1f")(value)} C` : "No data";
 const formatNoSign = (value) =>
   Number.isFinite(value) ? `${d3.format(".1f")(value)} C` : "No data";
 const severityColor = d3
-  .scaleSequential([-0.25, 6.5], d3.interpolateYlOrRd)
+  .scaleSequential([0, 10], d3.interpolateYlOrRd)
   .clamp(true);
+const radiusScale = d3.scaleSqrt().domain([0, 10]).range([4, 34]).clamp(true);
 
 let rows = [];
-let california = null;
-let cityShapes = null;
+let states = null;
 let cityMeta = [];
 let valueIndex = new Map();
 
@@ -69,10 +60,9 @@ init();
 
 async function init() {
   try {
-    [rows, california, cityShapes] = await Promise.all([
+    [rows, states] = await Promise.all([
       d3.csv(DATA_URL, d3.autoType),
-      d3.json(CALIFORNIA_URL),
-      d3.json(CITY_SHAPES_URL),
+      d3.json(STATES_URL),
     ]);
     prepareData();
     buildScenarioButtons();
@@ -84,21 +74,21 @@ async function init() {
     els.status.textContent = `${rows.length.toLocaleString()} annual city-pathway records loaded.`;
   } catch (error) {
     console.error(error);
-    els.status.textContent = "Unable to load the California climate subset.";
+    els.status.textContent = "Unable to load the U.S. climate subset.";
   }
 }
 
 function prepareData() {
   rows = rows
-    .filter((d) => scenarios.some((scenario) => scenario.id === d.scenario))
+    .filter((d) => scenarios.some((scenario) => scenario.id === d.experiment_id))
     .sort((a, b) =>
       d3.ascending(a.city, b.city) ||
-      d3.ascending(a.scenario, b.scenario) ||
+      d3.ascending(a.experiment_id, b.experiment_id) ||
       d3.ascending(a.year, b.year),
     );
 
   valueIndex = new Map(
-    rows.map((d) => [`${d.city}|${d.scenario}|${d.year}`, d]),
+    rows.map((d) => [`${d.city}|${d.experiment_id}|${d.year}`, d]),
   );
 
   cityMeta = Array.from(
@@ -108,6 +98,7 @@ function prepareData() {
         const first = values[0];
         return {
           city: first.city,
+          state: first.state,
           label: `${first.city}, ${first.state}`,
           lat: first.lat,
           lon: first.lon,
@@ -116,41 +107,10 @@ function prepareData() {
       },
       (d) => d.city,
     ).values(),
-  ).sort((a, b) => cityOrder.indexOf(a.city) - cityOrder.indexOf(b.city));
+  ).sort((a, b) => d3.ascending(a.city, b.city));
 
-  cityShapes.features = cityShapes.features
-    .filter((feature) => cityOrder.includes(feature.properties.BASENAME))
-    .map(rewindFeature)
-    .sort(
-      (a, b) =>
-        cityOrder.indexOf(a.properties.BASENAME) -
-        cityOrder.indexOf(b.properties.BASENAME),
-    );
-}
-
-function rewindFeature(feature) {
-  const geometry = feature.geometry;
-  if (geometry.type === "Polygon") {
-    return {
-      ...feature,
-      geometry: {
-        ...geometry,
-        coordinates: geometry.coordinates.map((ring) => ring.slice().reverse()),
-      },
-    };
-  }
-  if (geometry.type === "MultiPolygon") {
-    return {
-      ...feature,
-      geometry: {
-        ...geometry,
-        coordinates: geometry.coordinates.map((polygon) =>
-          polygon.map((ring) => ring.slice().reverse()),
-        ),
-      },
-    };
-  }
-  return feature;
+  const excluded = new Set(["Alaska", "Hawaii", "Puerto Rico"]);
+  states.features = states.features.filter((feature) => !excluded.has(feature.properties.name));
 }
 
 function buildScenarioButtons() {
@@ -191,21 +151,29 @@ function updateScenarioButtons() {
 function drawMap() {
   const width = 860;
   const height = 760;
-  const margin = { top: 64, right: 36, bottom: 76, left: 36 };
+  const margin = { top: 66, right: 34, bottom: 78, left: 34 };
   const scenario = getScenario(state.scenario);
 
   svg.selectAll("*").remove();
 
   const projection = d3
-    .geoMercator()
+    .geoAlbersUsa()
     .fitExtent(
       [
-        [margin.left, margin.top + 34],
-        [width - margin.right, height - margin.bottom - 14],
+        [margin.left, margin.top + 30],
+        [width - margin.right, height - margin.bottom - 18],
       ],
-      cityShapes,
+      states,
     );
   const path = d3.geoPath(projection);
+
+  const cityValues = cityMeta
+    .map((city) => ({
+      ...city,
+      climate: getValue(city.city, state.scenario, state.year),
+      xy: projection([city.lon, city.lat]),
+    }))
+    .filter((d) => d.xy && d.climate);
 
   svg
     .append("rect")
@@ -228,64 +196,66 @@ function drawMap() {
     .attr("class", "map-subtitle-svg")
     .attr("x", 42)
     .attr("y", 66)
-    .text(`${scenario.note}: ${scenario.description}; zoomed to the four California city boundaries`);
+    .text("Color and radius both increase with projected warming severity");
 
   svg
-    .append("path")
-    .datum(california)
+    .append("g")
+    .selectAll("path")
+    .data(states.features)
+    .join("path")
     .attr("class", "state-outline")
     .attr("d", path);
 
-  const cityLayer = svg.append("g");
-  const cityFeatures = cityShapes.features.map((feature) => {
-    const city = feature.properties.BASENAME;
-    return {
-      ...feature,
-      climate: getValue(city, state.scenario, state.year),
-      meta: cityMeta.find((d) => d.city === city),
-    };
-  });
-
-  cityLayer
-    .selectAll("path")
-    .data(cityFeatures, (d) => d.properties.BASENAME)
-    .join("path")
-    .attr("class", "city-shape")
-    .attr("d", path)
-    .attr("fill", (d) => severityColor(d.climate?.temp_anomaly_c))
-    .attr("stroke-width", (d) => {
-      const value = d.climate?.temp_anomaly_c ?? 0;
-      return 2.2 + Math.max(0, value) * 0.35;
-    })
+  const bubbles = svg
+    .append("g")
+    .attr("class", "bubble-layer")
+    .selectAll("circle")
+    .data(cityValues, (d) => d.city)
+    .join("circle")
+    .attr("class", "city-bubble")
+    .attr("cx", (d) => d.xy[0])
+    .attr("cy", (d) => d.xy[1])
+    .attr("r", (d) => radiusScale(Math.max(0, d.climate.temp_anomaly_c)))
+    .attr("fill", (d) => severityColor(d.climate.temp_anomaly_c))
+    .attr("stroke", (d) => severityColor(d.climate.temp_anomaly_c))
     .attr("tabindex", 0)
     .attr("role", "img")
     .attr(
       "aria-label",
       (d) =>
-        `${d.properties.BASENAME}, ${scenario.fullLabel}, ${formatDeg(
-          d.climate?.temp_anomaly_c,
+        `${d.label}, ${scenario.fullLabel}, ${formatDeg(
+          d.climate.temp_anomaly_c,
         )} in ${state.year}`,
     )
     .on("pointermove", (event, d) => {
-      showTooltip(event, d.meta.label, [
+      showTooltip(event, d.label, [
         ["Year", state.year],
         ["Future", scenario.fullLabel],
         ["Scenario", scenario.note],
-        ["Warming", formatDeg(d.climate?.temp_anomaly_c)],
-        ["Baseline", formatNoSign(d.meta.baseline)],
+        ["Warming", formatDeg(d.climate.temp_anomaly_c)],
+        ["Baseline", formatNoSign(d.baseline)],
       ]);
     })
     .on("pointerleave", hideTooltip);
 
+  bubbles
+    .clone(true)
+    .lower()
+    .attr("class", "city-halo")
+    .attr("r", (d) => radiusScale(Math.max(0, d.climate.temp_anomaly_c)) * 1.55);
+
+  const labeled = d3
+    .sort(cityValues, (a, b) => d3.descending(a.climate.temp_anomaly_c, b.climate.temp_anomaly_c))
+    .slice(0, 5);
+
   svg
     .append("g")
     .selectAll("text")
-    .data(cityMeta)
+    .data(labeled, (d) => d.city)
     .join("text")
     .attr("class", "city-label")
-    .attr("x", (d) => projection([d.lon, d.lat])[0] + labelOffsets.get(d.city)[0])
-    .attr("y", (d) => projection([d.lon, d.lat])[1] + labelOffsets.get(d.city)[1])
-    .attr("text-anchor", (d) => (d.city === "San Francisco" ? "end" : "start"))
+    .attr("x", (d) => d.xy[0] + radiusScale(Math.max(0, d.climate.temp_anomaly_c)) + 4)
+    .attr("y", (d) => d.xy[1] + 4)
     .text((d) => d.city);
 
   drawLegend(width, height);
@@ -337,6 +307,39 @@ function drawLegend(width, height) {
     .attr("transform", `translate(0,${y + legendHeight})`)
     .call(d3.axisBottom(legendScale).ticks(6).tickFormat((d) => `${d} C`))
     .call((g) => g.select(".domain").remove());
+
+  const sizeValues = [2, 5, 8];
+  const sizeLegend = svg
+    .append("g")
+    .attr("class", "size-legend")
+    .attr("transform", `translate(${x - 190},${y - 4})`);
+
+  sizeLegend
+    .append("text")
+    .attr("class", "legend-title")
+    .attr("x", 0)
+    .attr("y", -8)
+    .text("Circle size");
+
+  sizeLegend
+    .selectAll("circle")
+    .data(sizeValues)
+    .join("circle")
+    .attr("cx", (_, i) => i * 50 + 16)
+    .attr("cy", 12)
+    .attr("r", (d) => radiusScale(d) * 0.55)
+    .attr("fill", "rgb(255 190 80 / 0.35)")
+    .attr("stroke", "rgb(255 230 160 / 0.85)");
+
+  sizeLegend
+    .selectAll("text.value")
+    .data(sizeValues)
+    .join("text")
+    .attr("class", "legend-title value")
+    .attr("x", (_, i) => i * 50 + 16)
+    .attr("y", 44)
+    .attr("text-anchor", "middle")
+    .text((d) => `${d} C`);
 }
 
 function updateSummary() {
@@ -352,7 +355,7 @@ function updateSummary() {
 
   els.summary.textContent = `${scenario.fullLabel} (${scenario.note}) in ${
     state.year
-  }: average warming across these city boundaries is ${formatDeg(
+  }: average warming across ${values.length} major cities is ${formatDeg(
     mean,
   )}; ${hottest.city} is highest at ${formatDeg(hottest.value)}.`;
 }

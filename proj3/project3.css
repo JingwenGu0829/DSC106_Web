@@ -80,7 +80,7 @@
   overflow: hidden;
 }
 
-#california-climate-map {
+#us-climate-map {
   display: block;
   width: 100%;
   height: auto;
@@ -191,25 +191,35 @@
 }
 
 .state-outline {
-  fill: rgb(255 255 255 / 0.055);
-  stroke: rgb(226 232 240 / 0.55);
-  stroke-width: 1.35;
+  fill: rgb(255 255 255 / 0.045);
+  stroke: rgb(226 232 240 / 0.30);
+  stroke-width: 0.9;
 }
 
-.city-shape {
-  stroke: rgb(255 255 255 / 0.92);
-  filter: drop-shadow(0 0 9px rgb(255 204 77 / 0.34));
+.city-bubble {
+  fill-opacity: 0.48;
+  stroke-opacity: 0.92;
+  stroke-width: 1.6;
   cursor: pointer;
+  mix-blend-mode: screen;
   transition:
     filter 160ms ease,
     stroke-width 160ms ease,
     opacity 160ms ease;
 }
 
-.city-shape:hover,
-.city-shape:focus-visible {
-  filter: drop-shadow(0 0 16px rgb(255 193 7 / 0.75));
-  stroke-width: 5;
+.city-halo {
+  fill-opacity: 0.14;
+  stroke: none;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.city-bubble:hover,
+.city-bubble:focus-visible {
+  filter: drop-shadow(0 0 13px rgb(255 193 7 / 0.80));
+  stroke: white;
+  stroke-width: 3;
 }
 
 .city-label {
@@ -304,7 +314,4 @@
     display: grid;
   }
 
-  .map-controls {
-    order: -1;
-  }
 }
