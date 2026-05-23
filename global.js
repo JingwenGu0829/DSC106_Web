@@ -11,6 +11,7 @@ const BASE_PATH = isLocal ? "/" : "/DSC106_Web/";
 const pages = [
   { url: "", title: "Home" },
   { url: "projects/", title: "Projects" },
+  { url: "meta/", title: "Meta" },
   { url: "proj2/project2_report.html", title: "Proj2" },
   { url: "proj3/", title: "Proj3" },
   { url: "contact/", title: "Contact" },
