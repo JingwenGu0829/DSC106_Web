@@ -40,7 +40,8 @@ const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
 
 renderCommitInfo(data, commits);
 renderScatterPlot();
-renderStory(commits);
+renderStory("#scatter-story", commits);
+renderStory("#files-story", commits);
 onTimeSliderChange();
 setupScroller();
 
@@ -250,11 +251,11 @@ function updateTooltipPosition(event) {
     .style("top", `${event.clientY + 14}px`);
 }
 
-function renderStory(allCommits) {
-  d3.select("#scatter-story")
+function renderStory(selector, allCommits) {
+  d3.select(selector)
     .selectAll(".step")
     .data(allCommits, (d) => d.id)
-    .join("div")
+    .join("p")
     .attr("class", "step")
     .html((d, i) => commitText(d, i));
 }
@@ -266,14 +267,28 @@ function setupScroller() {
     .setup({
       container: "#scrolly-1",
       step: "#scrolly-1 .step",
-      offset: 0.55,
+      offset: 0.18,
     })
     .onStepEnter((response) => {
       const commit = response.element.__data__;
-      setVisibleCommitTime(commit.datetime, true, commit.id);
+      setVisibleCommitTime(commit.datetime, true, commit.id, "scatter");
+    });
+
+  const fileScroller = scrollama();
+
+  fileScroller
+    .setup({
+      container: "#scrolly-2",
+      step: "#scrolly-2 .step",
+      offset: 0.18,
+    })
+    .onStepEnter((response) => {
+      const commit = response.element.__data__;
+      setVisibleCommitTime(commit.datetime, true, commit.id, "files");
     });
 
   window.addEventListener("resize", () => scroller.resize());
+  window.addEventListener("resize", () => fileScroller.resize());
 }
 
 function onTimeSliderChange() {
@@ -284,7 +299,12 @@ function onTimeSliderChange() {
   setVisibleCommitTime(commitMaxTime, false);
 }
 
-function setVisibleCommitTime(maxTime, syncSlider = true, activeCommitId = null) {
+function setVisibleCommitTime(
+  maxTime,
+  syncSlider = true,
+  activeCommitId = null,
+  target = "both",
+) {
   commitMaxTime = maxTime;
   commitProgress = timeScale(commitMaxTime);
   filteredCommits = commits.filter((d) => d.datetime <= commitMaxTime);
@@ -305,9 +325,16 @@ function setVisibleCommitTime(maxTime, syncSlider = true, activeCommitId = null)
   );
 
   renderCommitInfo(data, commits);
-  updateScatterPlot(filteredCommits);
-  updateFileDisplay(filteredCommits);
-  updateCommitLog(activeCommit);
+
+  if (target === "both" || target === "scatter") {
+    updateScatterPlot(filteredCommits);
+    updateActiveStep(activeCommit, "#scatter-story");
+  }
+
+  if (target === "both" || target === "files") {
+    updateFileDisplay(filteredCommits);
+    updateActiveStep(activeCommit, "#files-story");
+  }
 }
 
 function updateFileDisplay(visibleCommits) {
@@ -321,14 +348,18 @@ function updateFileDisplay(visibleCommits) {
     .select("#files")
     .selectAll("div.file-row")
     .data(files, (d) => d.name)
-    .join((enter) => {
-      const fileRow = enter.append("div").attr("class", "file-row");
-      const dt = fileRow.append("dt");
-      dt.append("code");
-      dt.append("small");
-      fileRow.append("dd");
-      return fileRow;
-    });
+    .join(
+      (enter) => {
+        const fileRow = enter.append("div").attr("class", "file-row");
+        const dt = fileRow.append("dt");
+        dt.append("code");
+        dt.append("small");
+        fileRow.append("dd");
+        return fileRow;
+      },
+      (update) => update,
+      (exit) => exit.remove(),
+    );
 
   filesContainer.select("dt > code").text((d) => d.name);
   filesContainer
@@ -373,14 +404,10 @@ function commitText(commit, index) {
   `;
 }
 
-function updateCommitLog(activeCommit) {
-  const activeIndex = commits.findIndex((d) => d.id === activeCommit.id);
-
-  d3.select("#commit-log").html(commitText(activeCommit, activeIndex));
-  d3.selectAll("#scatter-story .step").classed(
-    "is-active",
-    (d) => d.id === activeCommit.id,
-  );
+function updateActiveStep(activeCommit, selector) {
+  d3.select(selector)
+    .selectAll(".step")
+    .classed("is-active", (d) => d.id === activeCommit.id);
 }
 
 function formatHour(hour) {

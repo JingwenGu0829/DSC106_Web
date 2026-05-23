@@ -33,27 +33,12 @@
         <div id="scatter-plot">
           <div class="plot-heading">
             <div>
-              <p class="eyebrow">Commit Evolution</p>
-              <h2>When the site changed</h2>
+              <h2>Commits by time of day</h2>
             </div>
             <p id="selection-count"></p>
           </div>
 
           <div id="chart"></div>
-
-          <p id="commit-log" class="commit-log"></p>
-
-          <section class="file-section">
-            <div class="plot-heading">
-              <div>
-                <p class="eyebrow">File Distribution</p>
-                <h2>The race for the biggest file</h2>
-              </div>
-              <p id="file-count"></p>
-            </div>
-
-            <dl id="files"></dl>
-          </section>
 
           <dl id="commit-tooltip" class="info tooltip" hidden>
             <dt>Commit</dt>
@@ -67,6 +52,18 @@
             <dt>Lines</dt>
             <dd id="commit-lines"></dd>
           </dl>
+        </div>
+      </section>
+
+      <section class="file-section" aria-label="File size scrollytelling">
+        <h2>Codebase evolution</h2>
+        <div id="scrolly-2">
+          <div id="files-plot">
+            <p id="file-count"></p>
+            <dl id="files"></dl>
+          </div>
+
+          <div id="files-story"></div>
         </div>
       </section>
     </main>
