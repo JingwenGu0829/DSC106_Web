@@ -572,7 +572,6 @@ button {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 2rem;
   align-items: start;
-  padding-bottom: 72vh;
 }
 
 #scatter-story,

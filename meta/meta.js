@@ -273,7 +273,7 @@ function setupScroller() {
     .setup({
       container: "#scrolly-1",
       step: "#scrolly-1 .step",
-      offset: 0.18,
+      offset: 0.5,
     })
     .onStepEnter((response) => {
       const commit = response.element.__data__;
@@ -286,7 +286,7 @@ function setupScroller() {
     .setup({
       container: "#scrolly-2",
       step: "#scrolly-2 .step",
-      offset: 0.18,
+      offset: 0.85,
     })
     .onStepEnter((response) => {
       const commit = response.element.__data__;
