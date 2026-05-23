@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meta: DSC 106 Portfolio Code Story</title>
-    <link rel="stylesheet" href="../style.css?v=lab08-demo-5">
+    <link rel="stylesheet" href="../style.css?v=lab08-demo-6">
   </head>
   <body class="meta-page">
     <main>
@@ -15,6 +15,14 @@
           A scrollytelling view of how this portfolio grew through commits and
           how the current code is distributed across files.
         </p>
+      </section>
+
+      <section class="panel meta-summary">
+        <label class="commit-slider">
+          <span>Show commits until:</span>
+          <input id="commit-progress" type="range" min="0" max="100" value="100">
+          <time id="commit-time"></time>
+        </label>
       </section>
 
       <section id="scrolly-1" aria-label="Commit history scrollytelling">
@@ -62,7 +70,7 @@
       <p>Built as a Doraemon-themed personal site for DSC 106 Labs.</p>
     </footer>
 
-    <script src="../global.js?v=lab08-demo-5" type="module"></script>
-    <script src="meta.js?v=lab08-demo-5" type="module"></script>
+    <script src="../global.js?v=lab08-demo-6" type="module"></script>
+    <script src="meta.js?v=lab08-demo-6" type="module"></script>
   </body>
 </html>
