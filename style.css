@@ -587,10 +587,6 @@ button {
   color: var(--color-text);
 }
 
-.step.is-active {
-  color: color-mix(in oklch, var(--color-accent), canvastext 30%);
-}
-
 #scatter-plot,
 #files-plot {
   position: sticky;

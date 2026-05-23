@@ -38,11 +38,10 @@ const rScale = d3
   .range([3, maxDotRadius]);
 const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
 
-renderCommitInfo(data, commits);
 renderScatterPlot();
 renderStory("#scatter-story", commits);
 renderStory("#files-story", commits);
-onTimeSliderChange();
+setVisibleCommitTime(commits.at(-1).datetime, false, commits.at(-1).id);
 setupScroller();
 
 async function loadData() {
@@ -169,6 +168,13 @@ function renderScatterPlot() {
 
 function updateScatterPlot(visibleCommits) {
   const svg = d3.select("#commit-chart");
+  const visibleDates = visibleCommits.map((d) => d.datetime);
+  const xDomain =
+    visibleDates.length > 1
+      ? d3.extent(visibleDates)
+      : paddedDateDomain(visibleDates[0] ?? commits[0].datetime);
+
+  xScale.domain(xDomain);
 
   const xAxis = d3
     .axisBottom(xScale)
@@ -293,6 +299,10 @@ function setupScroller() {
 
 function onTimeSliderChange() {
   const slider = d3.select("#commit-progress");
+
+  if (slider.empty()) {
+    return;
+  }
 
   commitProgress = Number(slider.property("value"));
   commitMaxTime = timeScale.invert(commitProgress);
@@ -420,4 +430,10 @@ function formatHour(hour) {
   }
 
   return hour < 12 ? `${hour} AM` : `${hour - 12} PM`;
+}
+
+function paddedDateDomain(date) {
+  const padding = 1000 * 60 * 60 * 24;
+
+  return [new Date(+date - padding), new Date(+date + padding)];
 }
