@@ -5,6 +5,7 @@ const repoUrl = "https://github.com/JingwenGu0829/DSC106_Web";
 const width = 1000;
 const height = 560;
 const margin = { top: 20, right: 28, bottom: 54, left: 58 };
+const maxDotRadius = 26;
 const usableArea = {
   top: margin.top,
   right: width - margin.right,
@@ -23,12 +24,18 @@ const fullTimeDomain = d3.extent(commits, (d) => d.datetime);
 const timeScale = d3.scaleTime().domain(fullTimeDomain).range([0, 100]);
 let commitMaxTime = timeScale.invert(commitProgress);
 
-const xScale = d3.scaleTime().range([usableArea.left, usableArea.right]);
+const xScale = d3
+  .scaleTime()
+  .domain(fullTimeDomain)
+  .range([usableArea.left + maxDotRadius, usableArea.right - maxDotRadius]);
 const yScale = d3
   .scaleLinear()
   .domain([0, 24])
   .range([usableArea.bottom, usableArea.top]);
-const rScale = d3.scaleSqrt().range([3, 28]);
+const rScale = d3
+  .scaleSqrt()
+  .domain(d3.extent(commits, (d) => d.totalLines))
+  .range([3, maxDotRadius]);
 const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
 
 renderCommitInfo(data, commits);
@@ -161,13 +168,6 @@ function renderScatterPlot() {
 
 function updateScatterPlot(visibleCommits) {
   const svg = d3.select("#commit-chart");
-  const safeCommits = visibleCommits.length ? visibleCommits : commits.slice(0, 1);
-  const xDomain =
-    safeCommits.length > 1 ? d3.extent(safeCommits, (d) => d.datetime) : fullTimeDomain;
-  const maxLines = d3.max(safeCommits, (d) => d.totalLines) || 1;
-
-  xScale.domain(xDomain);
-  rScale.domain([0, maxLines]);
 
   const xAxis = d3
     .axisBottom(xScale)
@@ -256,29 +256,7 @@ function renderStory(allCommits) {
     .data(allCommits, (d) => d.id)
     .join("div")
     .attr("class", "step")
-    .html((d, i) => {
-      const fileCount = d3.rollups(
-        d.lines,
-        (D) => D.length,
-        (line) => line.file,
-      ).length;
-      const date = d.datetime.toLocaleString("en", {
-        dateStyle: "full",
-        timeStyle: "short",
-      });
-      const commitLabel =
-        i === 0 ? "the first commit in this story" : `commit ${d.id}`;
-
-      return `
-        <p class="eyebrow">Commit ${i + 1} of ${allCommits.length}</p>
-        <h3>${date}</h3>
-        <p>
-          This step reveals <a href="${d.url}" target="_blank" rel="noreferrer noopener">${commitLabel}</a>,
-          which accounts for ${d.totalLines.toLocaleString()} lines across
-          ${fileCount.toLocaleString()} ${fileCount === 1 ? "file" : "files"}.
-        </p>
-      `;
-    });
+    .html((d, i) => commitText(d, i));
 }
 
 function setupScroller() {
@@ -292,9 +270,7 @@ function setupScroller() {
     })
     .onStepEnter((response) => {
       const commit = response.element.__data__;
-      d3.selectAll("#scrolly-1 .step").classed("is-active", false);
-      d3.select(response.element).classed("is-active", true);
-      setVisibleCommitTime(commit.datetime);
+      setVisibleCommitTime(commit.datetime, true, commit.id);
     });
 
   window.addEventListener("resize", () => scroller.resize());
@@ -308,10 +284,14 @@ function onTimeSliderChange() {
   setVisibleCommitTime(commitMaxTime, false);
 }
 
-function setVisibleCommitTime(maxTime, syncSlider = true) {
+function setVisibleCommitTime(maxTime, syncSlider = true, activeCommitId = null) {
   commitMaxTime = maxTime;
   commitProgress = timeScale(commitMaxTime);
   filteredCommits = commits.filter((d) => d.datetime <= commitMaxTime);
+  const activeCommit =
+    commits.find((d) => d.id === activeCommitId) ??
+    filteredCommits.at(-1) ??
+    commits[0];
 
   if (syncSlider) {
     d3.select("#commit-progress").property("value", commitProgress);
@@ -327,6 +307,7 @@ function setVisibleCommitTime(maxTime, syncSlider = true) {
   renderCommitInfo(data, commits);
   updateScatterPlot(filteredCommits);
   updateFileDisplay(filteredCommits);
+  updateCommitLog(activeCommit);
 }
 
 function updateFileDisplay(visibleCommits) {
@@ -369,6 +350,38 @@ function updateFileDisplay(visibleCommits) {
 }
 
 d3.select("#commit-progress").on("input", onTimeSliderChange);
+
+function commitText(commit, index) {
+  const fileCount = d3.rollups(
+    commit.lines,
+    (D) => D.length,
+    (line) => line.file,
+  ).length;
+  const date = commit.datetime.toLocaleString("en", {
+    dateStyle: "full",
+    timeStyle: "short",
+  });
+  const commitLabel =
+    index > 0 ? "another glorious commit" : "my first commit, and it was glorious";
+
+  return `
+    On ${date}, I made
+    <a href="${commit.url}" target="_blank" rel="noreferrer noopener">${commitLabel}</a>.
+    I edited ${commit.totalLines.toLocaleString()} lines across
+    ${fileCount.toLocaleString()} ${fileCount === 1 ? "file" : "files"}.
+    Then I looked over all I had made, and I saw that it was very good.
+  `;
+}
+
+function updateCommitLog(activeCommit) {
+  const activeIndex = commits.findIndex((d) => d.id === activeCommit.id);
+
+  d3.select("#commit-log").html(commitText(activeCommit, activeIndex));
+  d3.selectAll("#scatter-story .step").classed(
+    "is-active",
+    (d) => d.id === activeCommit.id,
+  );
+}
 
 function formatHour(hour) {
   if (hour === 0 || hour === 24) {
