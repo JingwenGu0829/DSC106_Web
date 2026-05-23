@@ -561,7 +561,7 @@ button {
 #scrolly-1 {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(20rem, 0.95fr) minmax(24rem, 1.05fr);
   gap: 2rem;
   align-items: start;
 }
@@ -569,7 +569,7 @@ button {
 #scrolly-2 {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(24rem, 1.05fr) minmax(20rem, 0.95fr);
   gap: 2rem;
   align-items: start;
 }
@@ -579,6 +579,10 @@ button {
   position: relative;
   font-size: 0.95rem;
   line-height: 1.45;
+}
+
+.story-sidebar {
+  min-width: 0;
 }
 
 .step {
