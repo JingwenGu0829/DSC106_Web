@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta: DSC 106 Portfolio Code Story</title>
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body class="meta-page">
+    <main>
+      <section class="page-header">
+        <p class="eyebrow">DSC 106 Lab 8</p>
+        <h1>Code Story</h1>
+        <p class="lead">
+          A scrollytelling view of how this portfolio grew through commits and
+          how the current code is distributed across files.
+        </p>
+      </section>
+
+      <section class="panel meta-summary">
+        <label class="commit-slider">
+          <span>Show commits until</span>
+          <input id="commit-progress" type="range" min="0" max="100" value="100">
+          <time id="commit-time"></time>
+        </label>
+
+        <div id="stats" aria-live="polite"></div>
+      </section>
+
+      <section id="scrolly-1" aria-label="Commit history scrollytelling">
+        <div id="scatter-story"></div>
+
+        <div id="scatter-plot">
+          <div class="plot-heading">
+            <div>
+              <p class="eyebrow">Commit Evolution</p>
+              <h2>When the site changed</h2>
+            </div>
+            <p id="selection-count"></p>
+          </div>
+
+          <div id="chart"></div>
+
+          <p id="commit-log" class="commit-log"></p>
+
+          <section class="file-section">
+            <div class="plot-heading">
+              <div>
+                <p class="eyebrow">File Distribution</p>
+                <h2>The race for the biggest file</h2>
+              </div>
+              <p id="file-count"></p>
+            </div>
+
+            <dl id="files"></dl>
+          </section>
+
+          <dl id="commit-tooltip" class="info tooltip" hidden>
+            <dt>Commit</dt>
+            <dd>
+              <a id="commit-link" target="_blank" rel="noreferrer noopener"></a>
+            </dd>
+            <dt>Date</dt>
+            <dd id="commit-date"></dd>
+            <dt>Time</dt>
+            <dd id="commit-time-detail"></dd>
+            <dt>Lines</dt>
+            <dd id="commit-lines"></dd>
+          </dl>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Built as a Doraemon-themed personal site for DSC 106 Labs.</p>
+    </footer>
+
+    <script src="../global.js" type="module"></script>
+    <script src="meta.js" type="module"></script>
+  </body>
+</html>
